@@ -32,44 +32,38 @@ public class MainActivity extends AppCompatActivity {
 
         List<Map<String, String>> arrayList= new ArrayList<>();
         Map<String, String> map;
+        String value = getString(R.string.large_text);
+        String lenght = String.valueOf(value.length());
 
+        map = new HashMap<>();
+        map.put("Text", "Both authors equally contributed to study conception and design as well as to analysis and interpretation of data. SL was responsible for acquisition of data. Both authors were involved in drafting the paper and revising it critically for important intellectual content and approved the final version to be published.");
+        map.put("Name", lenght);
+        arrayList.add(map);
 
 
         // информация 1
         map = new HashMap<>();
-        map.put("Text", "\"Исследуйте стартовое приложение, находящееся в папке ./code.\\n\" +\n" +
-                "                \"Добавьте ConstraintLayout в app/build.gradle. (implementation 'androidx.constraintlayout:constraintlayout:1.1.3).\\n\" +\n" +
-                "                \"Создать xml файл в папке res/layout для элемента списка на основе ConstraintLayout, состоящий из двух TextView, один под другим.");
-        map.put("Name", "1");
+        map.put("Text", "The Internet is increasingly used as a source of health-related information, and a vast majority of Internet users are performing health-related searches in the United States and Europe, with wide differences among countries. Health information searching behavior on the Internet is affected by multiple factors, including demographics, socioeconomic factors, education, employment, attitudes toward the Internet, and health conditions, and their knowledge may help to promote a safer use of the Internet. Limited information however exists so far about Internet use to search for medical information in Italy.");
+        map.put("Name", lenght);
         arrayList.add(map);
 
         map = new HashMap<>();
-        map.put("Text", "Еще раз повторите конструктор SimpleAdapter. Без детального понимания следующие два пункта будет сложно выполнить.\\n\" +\n" +
-                "                \"Изменить метод prepareContent так, чтобы он возвращал список словарей строк (List<Map<String, String>>), нужный для SimpleAdapter. \" +\n" +
-                "                \"Из каждого элемента списка мы будем создавать строку в интерфейсе, каждый элемент должен содержать заголовок и подзаголовок. \" +\n" +
-                "                \"То есть в каждом элементе списка (Map<String, String>) должно быть 2 записи (MapEntry<String, String>), одна для заголовка, \" +\n" +
-                "                \"вторая для подзаголовка. В качестве заголовка используем элемент массива строк из оригинального приложения (\" +\n" +
-                "                \"String[] arrayContent = getString(R.string.large_text).split(\\\"\\\\n\\\\n\\\"); arrayContent[i];),\" +\n" +
-                "                \" подзаголовком будет длина этой строки (arrayContent[i].length()).");
-        map.put("Name", "2");
+        map.put("Text", "The objective of this study was to investigate the use of the Internet for searching for information on medicines and disease in adult subjects in Northern Italy.");
+        map.put("Name", lenght);
         arrayList.add(map);
 
         map = new HashMap<>();
-        map.put("Text", "В методе createAdapter измените входной параметр на List<Map<String, String>>\" +\n" +
-                "                \" и создайте SimpleAdapter вместо ArrayAdapter, так, чтобы заголовок и подзаголовок отображались в каждой строке. \" +\n" +
-                "                \"Для этого используйте layout, созданный в пенкте 3, и параметры from (ключи словаря с заголовком и подзаголовком из пункта 5)\" +\n" +
-                "                \" и to (id элементов TextView, созданных в пункте 3) конструктора SimpleAdapter.\\n");
-        map.put("Name", "3");
+        map.put("Text", "The study provides detailed information on the use of the Internet for searching for information on medicines and disease in the Italian population. Gender, age, social status and level of education, and the previous use of medicines, affect searching behaviors and use patterns. Results can support educational interventions to promote the retrieval of high-quality information by Internet users and health professionals advising patients about appropriate use of Internet for health-related purposes.");
+        map.put("Name", lenght);
         arrayList.add(map);
 
         map = new HashMap<>();
-        map.put("Text", "Запустите приложение, объясните, почему не потребовалось менять тип\" +\n" +
-                "                \" возвращаемого значения из метода createAdapter.");
-        map.put("Name", "4");
+        map.put("Text", "The survey enrolled a total of 1008 participants. Their demographic details are shown in Table 1. The median age was 43 years (interquartile range: 34-51), with a range of 14 to 88 years. Most of the participants were married or cohabiting (61.8%) or single (30.3%), with no differences between women and men. Nearly 70% of the participants had secondary school or university degrees. University degrees were declared more frequently by women than men (26.0% vs 19.4%). Nearly 73% of respondents were employed, and 10% were retired. In comparison to women, men were more likely to be employed (79.5% vs 68.1%) or retired (13.7% vs 7.5%), whereas women were more likely to be unemployed (2.6% vs 0.7%) and housewives (15.2% vs 0.0%).");
+        map.put("Name", lenght);
         arrayList.add(map);
 
-        SimpleAdapter adapter = new SimpleAdapter(this, arrayList, android.R.layout.simple_expandable_list_item_2,
-                new String[]{"Name","Text"},
+        SimpleAdapter adapter = new SimpleAdapter(this, arrayList, android.R.layout.simple_expandable_list_item_1,
+                new String[]{"Text","Name"},
                 new int[]{android.R.id.text1, android.R.id.text2});
         listView.setAdapter(adapter);
     }
