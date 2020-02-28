@@ -1,5 +1,6 @@
 package com.example.list;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -20,38 +22,52 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView listView;
     private SharedPreferences sharedPrefTxt;
-    private SwipeRefreshLayout swipeLayout;
     private static  String LARGE_TEXT = "large_text";
+    private List<Map<String, String>> contentList;
+    private BaseAdapter listContentAdapter;
+    private SwipeRefreshLayout swipeLayout;
+    private ArrayList<Integer> indexDelItems = new ArrayList<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        paperContent();
         SharedPreferences preferences = getApplication().getSharedPreferences("SHARED_PREFS_KEY", MODE_PRIVATE);
         String text = preferences.getString("saved_text", getString(R.string.large_text));
         preferences.edit().putString("saved_text", text).apply();
+        prepareContent();
+
     }
 
 
-    private void paperContent(){
-        String[] arrayContent = sharedPrefTxt.getString(LARGE_TEXT, "").split("\n\n");
-        List<Map<String, String>> arrayList= new ArrayList<>();
-        Map<String, String> map;
-        for (String value: arrayContent){
-            map = new HashMap<>();
-            map.put("text", value);
-            map.put("lenght", Integer.toString(value.length()));
-            arrayList.add(map);
-
-        }
-
-        SimpleAdapter adapter = new SimpleAdapter(this, arrayList, R.layout.list_layout,
+    @NonNull
+    private SimpleAdapter createAdapter(String[] stringsTxt) {
+        contentList = new ArrayList<>();
+        prepareAdapterContent(stringsTxt);
+        return new SimpleAdapter(this, contentList, R.layout.list_layout,
                 new String[]{"text","lenght"},
                 new int[]{R.id.txtText, R.id.txtNumber});
-        listView.setAdapter(adapter);
+    }
+
+
+    @NonNull
+    private List<Map<String, String>> prepareAdapterContent (String[] stringsTxt) {
+        Map<String, String> mapList;
+        for (String value: stringsTxt) {
+            mapList = new HashMap<>();
+            mapList.put("text", value);
+            mapList.put("lenght", Integer.toString(value.length()));
+            contentList.add(mapList);
+        };
+        return contentList;
+    }
+
+    @NonNull
+    private String[] prepareContent() {
+        String[] arrayContent = sharedPrefTxt.getString(LARGE_TEXT, "").split("\n\n");
+        return  arrayContent;
+
     }
 }
