@@ -23,7 +23,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPrefTxt;
-    private static  String LARGE_TEXT = "large_text";
+    private static String LARGE_TEXT = "large_text";
     private List<Map<String, String>> contentList;
     private BaseAdapter listContentAdapter;
     private SwipeRefreshLayout swipeLayout;
@@ -41,33 +41,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @NonNull
+    private String[] prepareContent() {
+        String[] arrayContent = sharedPrefTxt.getString(LARGE_TEXT, "").split("\n\n");
+        return arrayContent;
+    }
+
 
     @NonNull
     private SimpleAdapter createAdapter(String[] stringsTxt) {
         contentList = new ArrayList<>();
         prepareAdapterContent(stringsTxt);
         return new SimpleAdapter(this, contentList, R.layout.list_layout,
-                new String[]{"text","lenght"},
+                new String[]{"text", "lenght"},
                 new int[]{R.id.txtText, R.id.txtNumber});
     }
 
 
     @NonNull
-    private List<Map<String, String>> prepareAdapterContent (String[] stringsTxt) {
+    private List<Map<String, String>> prepareAdapterContent(String[] stringsTxt) {
         Map<String, String> mapList;
-        for (String value: stringsTxt) {
+        for (String value : stringsTxt) {
             mapList = new HashMap<>();
             mapList.put("text", value);
             mapList.put("lenght", Integer.toString(value.length()));
             contentList.add(mapList);
-        };
+        }
+        ;
         return contentList;
     }
-
-    @NonNull
-    private String[] prepareContent() {
-        String[] arrayContent = sharedPrefTxt.getString(LARGE_TEXT, "").split("\n\n");
-        return  arrayContent;
-
-    }
 }
+
