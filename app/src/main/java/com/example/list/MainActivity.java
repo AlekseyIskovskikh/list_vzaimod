@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPrefTxt;
     private SwipeRefreshLayout swipeLayout;
     private static  String LARGE_TEXT = "large_text";
+    private List<Map<String, String>> content = new ArrayList<>();
+
 
 
     @Override
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.list);
+        swipeLayout = findViewById(R.id.swipeRefreshLayout);
         sharedPrefTxt = getApplication().getSharedPreferences("SHARED_PREFS_KEY", MODE_PRIVATE);
         String text = sharedPrefTxt.getString(LARGE_TEXT, getString(R.string.large_text));
         sharedPrefTxt.edit().putString(LARGE_TEXT, text).apply();
@@ -40,17 +43,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void paperContent(){
         String[] arrayContent = sharedPrefTxt.getString(LARGE_TEXT, "").split("\n\n");
-        List<Map<String, String>> arrayList= new ArrayList<>();
+        content.clear();
         Map<String, String> map;
         for (String value: arrayContent){
             map = new HashMap<>();
             map.put("text", value);
             map.put("lenght", Integer.toString(value.length()));
-            arrayList.add(map);
-
+            content.add(map);
         }
 
-        final SimpleAdapter adapter = new SimpleAdapter(this, arrayList, R.layout.list_layout,
+
+        final SimpleAdapter adapter = new SimpleAdapter(this,content, R.layout.list_layout,
                 new String[]{"text","lenght"},
                 new int[]{R.id.txtText, R.id.txtNumber});
         listView.setAdapter(adapter);
@@ -58,16 +61,22 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String str = ((TextView)view).getText().toString();
+                content.remove(position);
                
                 adapter.notifyDataSetChanged();
             }
         });
 
-//        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//            }
-//        });
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                    swipeLayout.setRefreshing(false);
+
+                    paperContent();
+
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        
     }
 }
